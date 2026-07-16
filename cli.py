@@ -10811,6 +10811,7 @@ def main(
     list_tools: bool = False,
     list_toolsets: bool = False,
     gateway: bool = False,
+    headless: bool = False,
     resume: str = None,
     worktree: bool = False,
     w: bool = False,
@@ -10858,8 +10859,11 @@ def main(
     # This enables interactive sudo password prompts with timeout
     os.environ["HERMES_INTERACTIVE"] = "1"
     
+    # Auto-enable gateway mode when running headless (non-TTY like Railway)
+    _headless = headless or os.getenv("HERMES_HEADLESS", "").lower() in ("1", "true", "yes")
+    
     # Handle gateway mode (messaging + cron)
-    if gateway:
+    if (gateway or _headless) and not query and not q:
         import asyncio
         from gateway.run import start_gateway
         print("Starting Hermes Gateway (messaging platforms)...")
