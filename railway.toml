@@ -1,0 +1,4 @@
+[deploy]
+# Patch the existing config.yaml to use auto/claude-sonnet model (OmniRoute compatible),
+# then start the hermes gateway. The sed is silent (no error if file doesn't exist).
+startCommand = 'bash -c "sed -i \"s|anthropic/claude-opus-4.6|auto/claude-sonnet|g\" /opt/data/config.yaml 2>/dev/null; hermes"'
